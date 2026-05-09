@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  visual-search-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - CLIP_MODEL=sentence-transformers/clip-ViT-B-32
+      - DEFAULT_MATCH_THRESHOLD=0.70
+      - HIGH_CONFIDENCE_THRESHOLD=0.85
+    volumes:
+      - ./app:/app/app  # Hot reload en desarrollo
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
